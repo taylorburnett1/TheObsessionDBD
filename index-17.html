@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DBD | Developed By Dynasty</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg: #111110;
+  --bg2: #161614;
+  --cream: #ffffff;
+  --cream-dim: rgba(255,255,255,0.65);
+  --gold: #b8974a;
+  --gold-dim: rgba(184,151,74,0.08);
+  --gold-line: rgba(184,151,74,0.35);
+  --rule: rgba(255,255,255,0.08);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: 'Cinzel', serif;
+  overflow-x: hidden;
+}
+
+/* ---- HERO ---- */
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px 40px;
+  text-align: center;
+  background: radial-gradient(ellipse 80% 60% at 50% 40%, #1e1c18 0%, var(--bg) 70%);
+}
+
+.hero-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  margin-bottom: 56px;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 0.2s;
+}
+
+.hero-eyebrow-line { width: 48px; height: 1px; background: var(--gold-line); }
+
+.hero-eyebrow span {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5em;
+  color: rgba(184,151,74,0.7);
+  text-transform: uppercase;
+}
+
+.hero-dbd {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(96px, 20vw, 200px);
+  font-weight: 900;
+  color: var(--cream);
+  line-height: 0.9;
+  letter-spacing: -2px;
+  text-shadow: 0 0 80px rgba(184,151,74,0.08), 0 2px 0 rgba(0,0,0,0.8);
+  opacity: 0;
+  animation: fadeUp 1.2s cubic-bezier(0.16,1,0.3,1) forwards 0.4s;
+}
+
+.hero-tagline {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(24px, 5vw, 38px);
+  font-weight: 400;
+  font-style: normal;
+  color: var(--cream-dim);
+  letter-spacing: 0.05em;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeUp 1s ease forwards 0.8s;
+}
+
+.hero-gold-line {
+  width: 1px;
+  height: 64px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  margin: 48px auto 0;
+  opacity: 0;
+  animation: fadeIn 1s ease forwards 1.2s;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(32px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ---- FULL-WIDTH DIVIDERS ---- */
+.full-rule {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(to right, transparent, var(--gold-line), transparent);
+}
+
+/* ---- SECTION RULE ---- */
+.section-rule {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 64px;
+}
+.section-rule-line { flex: 1; height: 1px; background: var(--rule); }
+.section-rule-label {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.55em;
+  color: var(--gold);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+/* ---- DMO SECTION ---- */
+.dmo-section { background: var(--bg2); }
+.dmo-inner { max-width: 900px; margin: 0 auto; padding: 48px 24px 100px; }
+
+.dmo-opener {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(22px, 3.2vw, 30px);
+  font-style: normal;
+  color: var(--cream-dim);
+  line-height: 1.8;
+  text-align: center;
+  margin-bottom: 80px;
+}
+
+.dmo-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2px;
+  margin-bottom: 80px;
+}
+@media (max-width: 640px) { .dmo-grid { grid-template-columns: 1fr; } }
+
+.dmo-card {
+  background: rgba(232,226,214,0.02);
+  border: 1px solid var(--rule);
+  padding: 48px 28px 40px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.4s ease, background 0.4s ease;
+}
+.dmo-card.visible { opacity: 1; transform: translateY(0); }
+.dmo-card:hover { background: var(--gold-dim); border-color: var(--gold-line); }
+.dmo-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, var(--gold), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+.dmo-card:hover::before { opacity: 1; }
+
+.dmo-number {
+  font-family: 'Cinzel', serif;
+  font-size: 10px;
+  letter-spacing: 0.4em;
+  color: var(--gold);
+  margin-bottom: 20px;
+  display: block;
+}
+.dmo-word {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 700;
+  color: var(--cream);
+  display: block;
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+.dmo-def {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(17px, 2.2vw, 21px);
+  font-style: normal;
+  color: var(--cream-dim);
+  line-height: 1.6;
+}
+.dmo-def em { color: var(--gold); font-style: normal; font-weight: 600; }
+
+.friction-statement {
+  text-align: center;
+  padding-top: 64px;
+  border-top: 1px solid var(--rule);
+}
+.friction-statement p {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(20px, 2.8vw, 26px);
+  font-style: normal;
+  color: var(--cream-dim);
+  margin-bottom: 40px;
+  line-height: 1.8;
+}
+
+.friction-row { display: flex; justify-content: center; flex-wrap: wrap; }
+
+.friction-item {
+  padding: 24px 40px;
+  border: 1px solid var(--rule);
+  text-align: center;
+  margin: -1px;
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease, background 0.3s ease;
+}
+.friction-item.visible { opacity: 1; transform: translateY(0); }
+.friction-item:hover { background: var(--gold-dim); }
+
+.friction-item-word {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(14px, 2.5vw, 18px);
+  font-weight: 700;
+  color: var(--cream);
+  display: block;
+  margin-bottom: 6px;
+}
+.friction-item-phrase {
+  font-family: 'EB Garamond', serif;
+  font-size: 17px;
+  font-style: normal;
+  color: var(--gold);
+}
+
+/* ---- FOUR PILLARS ---- */
+.pillars-section { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+
+.pillars-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2px;
+}
+@media (max-width: 560px) { .pillars-grid { grid-template-columns: 1fr; } }
+
+.pillar-card {
+  background: rgba(232,226,214,0.02);
+  border: 1px solid var(--rule);
+  padding: 48px 32px;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.7s ease, transform 0.7s ease, background 0.4s ease;
+}
+.pillar-card.visible { opacity: 1; transform: translateY(0); }
+.pillar-card:hover { background: var(--gold-dim); }
+
+.pillar-number {
+  font-family: 'Cinzel', serif;
+  font-size: 9px;
+  letter-spacing: 0.5em;
+  color: var(--gold);
+  display: block;
+  margin-bottom: 16px;
+}
+.pillar-name {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(16px, 2.5vw, 22px);
+  font-weight: 700;
+  color: var(--cream);
+  display: block;
+  margin-bottom: 16px;
+}
+.pillar-desc {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(16px, 2vw, 19px);
+  color: var(--cream-dim);
+  line-height: 1.8;
+  font-style: normal;
+}
+
+/* ---- CORE PHRASES ---- */
+.phrases-section { background: var(--bg2); }
+.phrases-inner { max-width: 900px; margin: 0 auto; padding: 100px 24px; }
+
+.phrase-block {
+  border-left: 2px solid var(--gold-line);
+  padding: 0 0 0 36px;
+  margin-bottom: 56px;
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.phrase-block.visible { opacity: 1; transform: translateX(0); }
+.phrase-block:last-child { margin-bottom: 0; }
+
+.phrase-text {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(14px, 2.5vw, 20px);
+  font-weight: 400;
+  color: var(--cream);
+  line-height: 1.5;
+  margin-bottom: 12px;
+}
+.phrase-sub {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(16px, 2vw, 20px);
+  font-style: normal;
+  color: var(--cream-dim);
+  line-height: 1.8;
+}
+
+/* ---- CLOSING ---- */
+.manifesto-section {
+  text-align: center;
+  padding: 120px 24px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.manifesto-word {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(80px, 18vw, 160px);
+  font-weight: 900;
+  color: var(--gold);
+  -webkit-text-stroke: 0;
+  text-shadow: none;
+  line-height: 0.85;
+  margin-bottom: 48px;
+  letter-spacing: 4px;
+}
+
+.manifesto-body {
+  font-family: 'EB Garamond', serif;
+  font-size: clamp(22px, 3.5vw, 32px);
+  font-style: normal;
+  color: var(--cream-dim);
+  line-height: 1.9;
+  margin-bottom: 64px;
+}
+.manifesto-body strong { font-style: normal; color: var(--cream); font-weight: 500; }
+
+/* ---- FOOTER ---- */
+footer {
+  padding: 60px 24px;
+  text-align: center;
+  border-top: 2px solid var(--gold-line);
+  background: #161614;
+}
+.footer-dbd {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 18px;
+  font-weight: 900;
+  letter-spacing: 0.3em;
+  color: #ffffff;
+  margin-bottom: 14px;
+}
+.footer-kin {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.55em;
+  color: var(--gold);
+  text-transform: uppercase;
+}
+.footer-credit {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  color: #ffffff;
+  text-transform: uppercase;
+  margin-top: 32px;
+  padding-top: 32px;
+  border-top: 1px solid var(--gold-line);
+}
+
+/* ---- REVEAL ---- */
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-eyebrow">
+    <div class="hero-eyebrow-line"></div>
+    <span>Dynasty Leadership Development</span>
+    <div class="hero-eyebrow-line"></div>
+  </div>
+  <div class="hero-dbd">DBD</div>
+  <div class="hero-tagline">Developed By Dynasty</div>
+  <div class="hero-gold-line"></div>
+</div>
+
+<div class="full-rule"></div>
+
+<!-- DMO -->
+<div class="dmo-section">
+  <div class="dmo-inner">
+    <div class="section-rule reveal">
+      <div class="section-rule-line"></div>
+      <div class="section-rule-label">The Lesson</div>
+      <div class="section-rule-line"></div>
+    </div>
+    <p class="dmo-opener reveal">
+      Discipline, motivation, and obsession are three words that get thrown around a lot.<br>
+      Most people misunderstand all three &mdash; and miss some very big lessons<br>about how life actually works.
+    </p>
+    <div class="dmo-grid">
+      <div class="dmo-card">
+        <span class="dmo-number">01</span>
+        <span class="dmo-word">Discipline</span>
+        <span class="dmo-def"><em>"I will make myself</em> do the thing."</span>
+      </div>
+      <div class="dmo-card">
+        <span class="dmo-number">02</span>
+        <span class="dmo-word">Motivation</span>
+        <span class="dmo-def"><em>"I want</em> to do the thing."</span>
+      </div>
+      <div class="dmo-card">
+        <span class="dmo-number">03</span>
+        <span class="dmo-word">Obsession</span>
+        <span class="dmo-def"><em>"I can't not</em> do the thing."</span>
+      </div>
+    </div>
+    <div class="friction-statement">
+      <p>All three produce the same outcome &mdash; the thing gets done.<br>But the internal cost could not be more different.<br>The difference is <strong style="color:var(--cream);font-style:normal;">friction.</strong></p>
+      <div class="friction-row">
+        <div class="friction-item">
+          <span class="friction-item-word">Discipline</span>
+          <span class="friction-item-phrase">Friction accepted.</span>
+        </div>
+        <div class="friction-item">
+          <span class="friction-item-word">Motivation</span>
+          <span class="friction-item-phrase">Friction reduced.</span>
+        </div>
+        <div class="friction-item">
+          <span class="friction-item-word">Obsession</span>
+          <span class="friction-item-phrase">Friction inverted.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="full-rule"></div>
+
+<!-- FOUR PILLARS -->
+<section class="pillars-section">
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">The Four Pillars</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <p class="reveal" style="font-family:'EB Garamond',serif;font-style:normal;font-size:clamp(18px,2.5vw,23px);color:var(--cream-dim);text-align:center;margin-bottom:56px;line-height:1.8;">
+    DBD operates under a full person paradigm. We develop the whole individual &mdash; not just the professional.
+  </p>
+  <div class="pillars-grid">
+    <div class="pillar-card">
+      <span class="pillar-number">Pillar 01</span>
+      <span class="pillar-name">Mental</span>
+      <span class="pillar-desc">How you think determines everything downstream. We build mental toughness, clarity under pressure, and the ability to reframe adversity as instruction.</span>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-number">Pillar 02</span>
+      <span class="pillar-name">Spiritual</span>
+      <span class="pillar-desc">Purpose-driven people outperform. We build leaders who know who they are, why they are here, and what they are willing to stand for when it costs something.</span>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-number">Pillar 03</span>
+      <span class="pillar-name">Social &amp; Emotional</span>
+      <span class="pillar-desc">The best performers in any room are the ones who make others better. We develop emotional intelligence, communication, and the ability to lead through relationship.</span>
+    </div>
+    <div class="pillar-card">
+      <span class="pillar-number">Pillar 04</span>
+      <span class="pillar-name">Physical</span>
+      <span class="pillar-desc">In DBD, physical means performance. Sales. Career growth. The discipline to execute at a high level every day &mdash; because that output shapes everything outside the job too.</span>
+    </div>
+  </div>
+</section>
+
+<div class="full-rule"></div>
+
+<!-- CORE PHRASES -->
+<div class="phrases-section">
+  <div class="phrases-inner">
+    <div class="section-rule reveal">
+      <div class="section-rule-line"></div>
+      <div class="section-rule-label">How We Think</div>
+      <div class="section-rule-line"></div>
+    </div>
+    <div class="phrase-block">
+      <div class="phrase-text">"Everything we do makes us either better or worse."</div>
+      <div class="phrase-sub">There is no neutral. Every rep, every conversation, every decision is building or eroding. DBD leaders understand that the small things are never small.</div>
+    </div>
+    <div class="phrase-block">
+      <div class="phrase-text">"Be the best inside the job so you can be the best outside the job."</div>
+      <div class="phrase-sub">How you show up professionally is practice for how you show up everywhere. Excellence is not a mode you switch on &mdash; it is a standard you maintain.</div>
+    </div>
+    <div class="phrase-block">
+      <div class="phrase-text">"We are here to build the best you."</div>
+      <div class="phrase-sub">DBD is not a training program. It is a development system built around one person &mdash; you. The best version of you is already in there. We are here to pull it out.</div>
+    </div>
+  </div>
+</div>
+
+<div class="full-rule"></div>
+
+<!-- CLOSING -->
+<section class="manifesto-section">
+  <div class="section-rule reveal">
+    <div class="section-rule-line"></div>
+    <div class="section-rule-label">The Take Away</div>
+    <div class="section-rule-line"></div>
+  </div>
+  <div class="manifesto-word reveal">DBD</div>
+  <p class="manifesto-body reveal">
+    The goal is never just to get the thing done.<br>
+    The goal is to become someone for whom<br>
+    <strong>not doing it feels impossible.</strong><br><br>
+    That is what Dynasty builds.<br>
+    That is what DBD demands.
+  </p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-dbd">Developed By Dynasty</div>
+  <div class="footer-kin">KIN Home</div>
+  <div class="footer-credit">Designed By Taylor Burnett</div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll(
+    '.reveal, .dmo-card, .friction-item, .pillar-card, .phrase-block, .manifesto-body, .manifesto-word'
+  ).forEach((el) => {
+    const isStagger = el.classList.contains('dmo-card') ||
+                      el.classList.contains('friction-item') ||
+                      el.classList.contains('pillar-card');
+    if (isStagger) {
+      const idx = Array.from(el.parentElement.children).indexOf(el);
+      el.style.transitionDelay = (idx * 0.12) + 's';
+    }
+    observer.observe(el);
+  });
+</script>
+</body>
+</html>
